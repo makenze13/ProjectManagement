@@ -1,4 +1,7 @@
 using Microsoft.EntityFrameworkCore;
+using ProjectManagement.Middlewares;
+using ProjectManagement.Repositories;
+using ProjectManagement.Repositories.Intefaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,7 +12,11 @@ builder.Services.AddDbContext<ProjectManagementContext>
 
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+
 var app = builder.Build();
+
+app.UseMiddleware<ExceptionMiddleware>();
 
 if (app.Environment.IsDevelopment())
 {

@@ -5,7 +5,7 @@ namespace ProjectManagement.Models;
 
 public partial class ProjectTask
 {
-    public int Idtask { get; set; }
+    public int IdTask { get; set; }
 
     public string Title { get; set; } = null!;
 
@@ -13,13 +13,13 @@ public partial class ProjectTask
 
     public string Status { get; set; } = null!;
 
-    public DateOnly Createdat { get; set; }
+    public DateOnly CreatedAt { get; set; }
 
-    public DateTime? Duedate { get; set; }
+    public DateTime? DueDate { get; set; }
 
-    public int? Idproject { get; set; }
+    public int? IdProject { get; set; }
 
-    public int? Idemployee { get; set; }
+    public int? IdEmployee { get; set; }
 
     public virtual Employee? IdemployeeNavigation { get; set; }
 

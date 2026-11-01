@@ -5,13 +5,13 @@ namespace ProjectManagement.Models;
 
 public partial class Employee
 {
-    public int Idemployee { get; set; }
+    public int IdEmployee { get; set; }
 
     public string Fullname { get; set; } = null!;
 
     public string Email { get; set; } = null!;
 
-    public DateOnly? Createdat { get; set; }
+    public DateOnly? CreatedAt { get; set; }
 
     public virtual ICollection<ProjectTask> Tasks { get; set; } = new List<ProjectTask>();
 }

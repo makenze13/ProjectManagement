@@ -24,16 +24,16 @@ public partial class ProjectManagementContext : DbContext
     {
         modelBuilder.Entity<Employee>(entity =>
         {
-            entity.HasKey(e => e.Idemployee).HasName("employees_pkey");
+            entity.HasKey(e => e.IdEmployee).HasName("employees_pkey");
 
             entity.ToTable("employees");
 
             entity.HasIndex(e => e.Email, "employees_email_key").IsUnique();
 
-            entity.Property(e => e.Idemployee)
-                .ValueGeneratedNever()
+            entity.Property(e => e.IdEmployee)
+                .ValueGeneratedOnAdd()
                 .HasColumnName("idemployee");
-            entity.Property(e => e.Createdat)
+            entity.Property(e => e.CreatedAt)
                 .HasDefaultValueSql("CURRENT_DATE")
                 .HasColumnName("createdat");
             entity.Property(e => e.Email)
@@ -46,14 +46,14 @@ public partial class ProjectManagementContext : DbContext
 
         modelBuilder.Entity<Project>(entity =>
         {
-            entity.HasKey(e => e.Idproject).HasName("projects_pkey");
+            entity.HasKey(e => e.IdProject).HasName("projects_pkey");
 
             entity.ToTable("projects");
 
-            entity.Property(e => e.Idproject)
-                .ValueGeneratedNever()
+            entity.Property(e => e.IdProject)
+                .ValueGeneratedOnAdd()
                 .HasColumnName("idproject");
-            entity.Property(e => e.Createdat)
+            entity.Property(e => e.CreatedAt)
                 .HasDefaultValueSql("CURRENT_DATE")
                 .HasColumnName("createdat");
             entity.Property(e => e.Description).HasColumnName("description");
@@ -64,22 +64,22 @@ public partial class ProjectManagementContext : DbContext
 
         modelBuilder.Entity<ProjectTask>(entity =>
         {
-            entity.HasKey(e => e.Idtask).HasName("tasks_pkey");
+            entity.HasKey(e => e.IdTask).HasName("tasks_pkey");
 
             entity.ToTable("tasks");
 
-            entity.Property(e => e.Idtask)
-                .ValueGeneratedNever()
+            entity.Property(e => e.IdTask)
+                .ValueGeneratedOnAdd()
                 .HasColumnName("idtask");
-            entity.Property(e => e.Createdat)
+            entity.Property(e => e.CreatedAt)
                 .HasDefaultValueSql("CURRENT_DATE")
                 .HasColumnName("createdat");
             entity.Property(e => e.Description).HasColumnName("description");
-            entity.Property(e => e.Duedate)
+            entity.Property(e => e.DueDate)
                 .HasColumnType("timestamp without time zone")
                 .HasColumnName("duedate");
-            entity.Property(e => e.Idemployee).HasColumnName("idemployee");
-            entity.Property(e => e.Idproject).HasColumnName("idproject");
+            entity.Property(e => e.IdEmployee).HasColumnName("idemployee");
+            entity.Property(e => e.IdProject).HasColumnName("idproject");
             entity.Property(e => e.Status)
                 .HasMaxLength(100)
                 .HasDefaultValueSql("'New'::character varying")
@@ -89,11 +89,13 @@ public partial class ProjectManagementContext : DbContext
                 .HasColumnName("title");
 
             entity.HasOne(d => d.IdemployeeNavigation).WithMany(p => p.Tasks)
-                .HasForeignKey(d => d.Idemployee)
+                .HasForeignKey(d => d.IdEmployee)
+                .OnDelete(DeleteBehavior.SetNull)
                 .HasConstraintName("tasks_idemployee_fkey");
 
             entity.HasOne(d => d.IdprojectNavigation).WithMany(p => p.Tasks)
-                .HasForeignKey(d => d.Idproject)
+                .HasForeignKey(d => d.IdProject)
+                .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("tasks_idproject_fkey");
         });
 
