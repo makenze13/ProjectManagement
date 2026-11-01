@@ -10,7 +10,7 @@ namespace ProjectManagement.Controllers
     public class EmployeesController(IEmployeeRepository employeeRepository) : ControllerBase
     {
         [HttpGet]
-        public async Task<ActionResult<List<Employee>>> GetEmployee()
+        public async Task<ActionResult<List<Employee>>> GetEmployeesAsync()
         {
             var employees = await employeeRepository.GetAllEmployeesAsync();
 
@@ -18,7 +18,7 @@ namespace ProjectManagement.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Employee>> GetIdEmployee(int id)
+        public async Task<ActionResult<Employee>> GetIdEmployeeAsync(int id)
         {
             var employee = await employeeRepository.GetIdEmployeeAsync(id);
 
@@ -31,13 +31,12 @@ namespace ProjectManagement.Controllers
         [HttpPost]
         public async Task<ActionResult> AddEmployeeAsync([FromBody] EmployeeCreateUpdateDto employee)
         {
-
             var newEmployee = await employeeRepository.AddEmployeeAsync(employee);
 
             if (newEmployee == null)
                 return Conflict();
 
-            return CreatedAtAction(nameof(GetIdEmployee), new { id = newEmployee.IdEmployee}, newEmployee);
+            return CreatedAtAction(nameof(GetIdEmployeeAsync), new { id = newEmployee.IdEmployee}, newEmployee);
         }
 
         [HttpPut("{id}")]
