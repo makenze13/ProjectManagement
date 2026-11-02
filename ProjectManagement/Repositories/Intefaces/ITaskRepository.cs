@@ -14,5 +14,6 @@ namespace ProjectManagement.Repositories.Intefaces
         Task<bool> CheckExistEmployeeAsync(int id);
         Task<bool> CheckExistProjectAsync(int id);
         Task<bool> CheckCorrectDateAsync(DateTime dueDate, int? id = null);
+        Task<List<ProjectTask>> GetFilterProjectsTasksAsync(string? status = null, int? idProject = null, int? idEmployee = null);
     }
 }

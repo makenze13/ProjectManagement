@@ -66,5 +66,10 @@ namespace ProjectManagement.Services
 
             return true;
         }
+
+        public async Task<List<ProjectTask>> GetFilterProjectsTasksAsync(string? status, int? idProject, int? idEmployee)
+        {
+            return await taskRepository.GetFilterProjectsTasksAsync(status, idProject, idEmployee);
+        }
     }
 }

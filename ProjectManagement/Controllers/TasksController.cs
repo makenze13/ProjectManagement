@@ -30,6 +30,14 @@ namespace ProjectManagement.Controllers
             return Ok(task);
         }
 
+        [HttpGet("filters")]
+        public async Task<ActionResult<List<ProjectTask>>> GetFilteredProjectsTasksAsync(string? status, int? idProject, int? idEmployee)
+        {
+            var tasks = await taskService.GetFilterProjectsTasksAsync(status, idProject, idEmployee);
+
+            return Ok(tasks);
+        }
+
         [HttpPost]
         public async Task<ActionResult> AddProjectTaskAsync([FromBody] ProjectTaskDto task)
         {

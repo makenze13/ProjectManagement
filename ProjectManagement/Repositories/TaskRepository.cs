@@ -118,5 +118,21 @@ namespace ProjectManagement.Repositories
             else
                 return true;
         }
+
+        public async Task<List<ProjectTask>> GetFilterProjectsTasksAsync(string? status = null, int? idProject = null, int? idEmployee = null)
+        {
+            var tasks = context.Tasks.AsQueryable();
+
+            if (status != null)
+                tasks = tasks.Where(t => t.Status == status);
+
+            if (idProject != null)
+                tasks = tasks.Where(t => t.IdProject == idProject);
+
+            if (idEmployee != null)
+                tasks = tasks.Where(t => t.IdEmployee == idEmployee);
+
+            return await tasks.ToListAsync();
+        }
     }
 }
