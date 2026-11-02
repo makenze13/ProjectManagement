@@ -39,14 +39,12 @@ namespace ProjectManagement.Controllers
         [HttpPut("{id}")]
         public async Task<ActionResult> UpdateProjectAsync([FromBody] ProjectDto project, int id)
         {
-            bool? checkUpdate = await projectRepository.UpdateProjectAsync(project, id);
+            bool checkUpdate = await projectRepository.UpdateProjectAsync(project, id);
 
-            if (checkUpdate == true)
+            if (checkUpdate)
                 return NoContent();
-            else if (checkUpdate == false)
-                return NotFound();
             else
-                return Conflict();
+                return NotFound();
         }
 
         [HttpDelete("{id}")]

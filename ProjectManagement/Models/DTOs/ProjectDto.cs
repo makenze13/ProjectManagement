@@ -6,7 +6,6 @@ namespace ProjectManagement.Models.DTOs
     {
         [Required(ErrorMessage = "Название проекта обязательно")]
         public string Name { get; set; } = null!;
-
         public string? Description { get; set; }
     }
 }

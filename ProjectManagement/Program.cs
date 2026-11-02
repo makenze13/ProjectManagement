@@ -2,6 +2,8 @@ using Microsoft.EntityFrameworkCore;
 using ProjectManagement.Middlewares;
 using ProjectManagement.Repositories;
 using ProjectManagement.Repositories.Intefaces;
+using ProjectManagement.Services;
+using ProjectManagement.Services.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +16,9 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
 builder.Services.AddScoped<IProjectRepository, ProjectRepository>();
+
+builder.Services.AddScoped<ITaskRepository, TaskRepository>();
+builder.Services.AddScoped<ITaskService, TaskService>();
 
 var app = builder.Build();
 
