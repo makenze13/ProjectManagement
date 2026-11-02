@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using ProjectManagement.Models;
 using ProjectManagement.Models.DTOs;
 using ProjectManagement.Services.Interfaces;
@@ -36,6 +35,22 @@ namespace ProjectManagement.Controllers
             var tasks = await taskService.GetFilterProjectsTasksAsync(status, idProject, idEmployee);
 
             return Ok(tasks);
+        }
+
+        [HttpGet("counts")]
+        public async Task<ActionResult<List<CounterTasksInProjectDto>>> GetCountsProjectsTasksAsync()
+        {
+            var counts = await taskService.GetCountTasksInProjectAsync();
+
+            return Ok(counts);
+        }
+
+        [HttpGet("statistics")]
+        public async Task<ActionResult<ProjectTaskStatistics>> GetStatisticsProjectsTasksAsync()
+        {
+            var statistics = await taskService.GetStatisticsProjectsTasksAsync();
+
+            return Ok(statistics);
         }
 
         [HttpPost]

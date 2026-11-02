@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using ProjectManagement.Models;
+﻿using ProjectManagement.Models;
 using ProjectManagement.Models.DTOs;
 using ProjectManagement.Repositories.Intefaces;
 using ProjectManagement.Services.Interfaces;
@@ -70,6 +69,16 @@ namespace ProjectManagement.Services
         public async Task<List<ProjectTask>> GetFilterProjectsTasksAsync(string? status, int? idProject, int? idEmployee)
         {
             return await taskRepository.GetFilterProjectsTasksAsync(status, idProject, idEmployee);
+        }
+
+        public async Task<List<CounterTasksInProjectDto>> GetCountTasksInProjectAsync()
+        {
+            return await taskRepository.GetCountTasksInProjectAsync();
+        }
+
+        public async Task<ProjectTaskStatistics> GetStatisticsProjectsTasksAsync()
+        {
+            return await taskRepository.GetStatisticsProjectsTasksAsync();
         }
     }
 }

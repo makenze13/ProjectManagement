@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Npgsql.EntityFrameworkCore.PostgreSQL.ValueGeneration.Internal;
 using ProjectManagement.Models;
 using ProjectManagement.Models.DTOs;
 using ProjectManagement.Repositories.Intefaces;
+using System.Diagnostics;
 
 namespace ProjectManagement.Repositories
 {
@@ -76,7 +76,7 @@ namespace ProjectManagement.Repositories
         {
             var currentTask = await context.Tasks.FirstOrDefaultAsync(t => t.IdTask == id);
 
-            if(!Enum.IsDefined(status.TaskStatus))
+            if (!Enum.IsDefined(status.TaskStatus))
                 return false;
 
             if (currentTask != null)
@@ -133,6 +133,26 @@ namespace ProjectManagement.Repositories
                 tasks = tasks.Where(t => t.IdEmployee == idEmployee);
 
             return await tasks.ToListAsync();
+        }
+
+        public async Task<List<CounterTasksInProjectDto>> GetCountTasksInProjectAsync()
+        {
+            var counter = context.Projects.Select(p => new CounterTasksInProjectDto
+            {
+                IdProject = p.IdProject,
+                CountTasks = p.Tasks.Count()
+            });
+
+            return await counter.ToListAsync();
+        }   
+
+        public async Task<ProjectTaskStatistics> GetStatisticsProjectsTasksAsync()
+        {
+            return await context.Tasks.GroupBy(t => 1).Select(g => new ProjectTaskStatistics
+            {
+                countCompleted = g.Count(t => t.Status == "Completed" || t.Status == "Cancelled"),
+                countUncompleted = g.Count(t => t.Status == "New" || t.Status == "InProgress")
+            }).FirstOrDefaultAsync() ?? new ProjectTaskStatistics();
         }
     }
 }

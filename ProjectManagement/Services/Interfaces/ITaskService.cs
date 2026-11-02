@@ -12,5 +12,7 @@ namespace ProjectManagement.Services.Interfaces
         Task<bool> DeleteProjectTaskAsync(int id);
         Task<bool> UpdateStatusProjectTaskAsync(int id, ProjectTaskStatusDto status);
         Task<List<ProjectTask>> GetFilterProjectsTasksAsync(string? status, int? idProject, int? idEmployee);
+        Task<List<CounterTasksInProjectDto>> GetCountTasksInProjectAsync();
+        Task<ProjectTaskStatistics> GetStatisticsProjectsTasksAsync();
     }
 }
