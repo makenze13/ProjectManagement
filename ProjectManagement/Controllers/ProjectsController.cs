@@ -50,14 +50,14 @@ namespace ProjectManagement.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteProjectAsync(int id)
         {
-            if (await projectRepository.DeleteProjectAsync(id))
-            {
+            var delete = await projectRepository.DeleteProjectAsync(id);
+
+            if (delete == null)
+                return BadRequest();
+            else if (delete == true)
                 return NoContent();
-            }
             else
-            {
                 return NotFound();
-            }
         }
     }
 }

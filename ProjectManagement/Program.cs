@@ -7,7 +7,10 @@ using ProjectManagement.Services.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllers();
+builder.Services.AddControllers(options =>
+{
+    options.SuppressAsyncSuffixInActionNames = false;
+});
 
 builder.Services.AddDbContext<ProjectManagementContext>
     (options => options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));

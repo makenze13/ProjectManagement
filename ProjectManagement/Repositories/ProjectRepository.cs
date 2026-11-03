@@ -48,9 +48,14 @@ namespace ProjectManagement.Repositories
                 return false;
         }
 
-        public async Task<bool> DeleteProjectAsync(int id)
+        public async Task<bool?> DeleteProjectAsync(int id)
         {
             var project = await context.Projects.FirstOrDefaultAsync(p => p.IdProject == id);
+
+            var tasks = await context.Tasks.AnyAsync(t => t.IdProject == id);
+
+            if (tasks)
+                return null;
 
             if (project != null)
             {

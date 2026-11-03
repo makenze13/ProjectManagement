@@ -8,7 +8,7 @@
             {
                 await requestDelegate(context);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 logger.LogError(ex, "Ошибка");
 

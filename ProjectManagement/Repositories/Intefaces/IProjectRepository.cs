@@ -9,6 +9,6 @@ namespace ProjectManagement.Repositories.Intefaces
         Task<Project?> GetIdProjectAsync(int id);
         Task<Project?> AddProjectAsync(ProjectDto project);
         Task<bool> UpdateProjectAsync(ProjectDto project, int id);
-        Task<bool> DeleteProjectAsync(int id);
+        Task<bool?> DeleteProjectAsync(int id);
     }
 }
