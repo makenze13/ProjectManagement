@@ -1,0 +1,32 @@
+services:
+  db:
+    image: postgres:18
+    container_name: projectmanagement-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: projectmanagement
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql
+      - ./ProjectManagement/Database/InitDatabase.sql:/docker-entrypoint-initdb.d/01-init.sql:ro
+
+  api:
+    build:
+      context: .
+      dockerfile: ProjectManagement/Dockerfile
+    container_name: projectmanagement-api
+    restart: unless-stopped
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_URLS: http://+:8080
+      ConnectionStrings__DefaultConnection: "Host=db;Port=5432;Database=projectmanagement;Username=postgres;Password=${DB_PASSWORD}"
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+
+volumes:
+  postgres_data:
