@@ -20,6 +20,8 @@ public partial class ProjectManagementContext : DbContext
 
     public virtual DbSet<ProjectTask> Tasks { get; set; }
 
+    public virtual DbSet<User> Users { get; set; }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Employee>(entity =>
@@ -60,6 +62,32 @@ public partial class ProjectManagementContext : DbContext
             entity.Property(e => e.Name)
                 .HasMaxLength(200)
                 .HasColumnName("name");
+        });
+
+        modelBuilder.Entity<User>(entity =>
+        {
+            entity.HasKey(e => e.IdUser).HasName("users_pkey");
+
+            entity.ToTable("users");
+
+            entity.Property(e => e.IdUser)
+                .ValueGeneratedOnAdd()
+                .HasColumnName("IdUser");
+            entity.Property(e => e.Login)
+                .HasMaxLength(100)
+                .HasColumnName("Login");
+            entity.Property(e => e.Password)
+                .HasMaxLength(200)
+                .HasColumnName("Password");
+            entity.Property(e => e.Role)
+                .HasMaxLength(100)
+                .HasColumnName("Role");
+            entity.Property(e => e.IdEmployee).HasColumnName("IdEmployee");
+
+            entity.HasOne(d => d.IdEmployeeNavigation).WithMany(p => p.Users)
+                .HasForeignKey(e => e.IdEmployee)
+                .OnDelete(DeleteBehavior.SetNull)
+                .HasConstraintName("users_idemployee_fkey");
         });
 
         modelBuilder.Entity<ProjectTask>(entity =>
