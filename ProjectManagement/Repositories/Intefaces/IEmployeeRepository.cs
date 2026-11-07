@@ -10,5 +10,6 @@ namespace ProjectManagement.Repositories.Intefaces
         Task<Employee?> AddEmployeeAsync(EmployeeCreateUpdateDto employee);
         Task<bool?> UpdateEmployeeAsync(EmployeeCreateUpdateDto employee, int id);
         Task<bool> DeleteEmployeeAsync(int id);
+        Task<bool> CheckEmail(string email, int? id = null);
     }
 }

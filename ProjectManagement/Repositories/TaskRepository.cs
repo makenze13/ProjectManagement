@@ -20,7 +20,7 @@ namespace ProjectManagement.Repositories
 
         public async Task<ProjectTask?> AddProjectTaskAsync(ProjectTaskDto taskDto)
         {
-            ProjectTask task = new ProjectTask
+            ProjectTask task = new()
             {
                 DueDate = taskDto.DueDate,
                 Description = taskDto.Description,

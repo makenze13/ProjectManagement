@@ -1,18 +1,18 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ProjectManagement.Models;
 using ProjectManagement.Models.DTOs;
-using ProjectManagement.Repositories.Intefaces;
+using ProjectManagement.Services;
 
 namespace ProjectManagement.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class EmployeesController(IEmployeeRepository employeeRepository) : ControllerBase
+    public class EmployeesController(IEmployeeService employeeService) : ControllerBase
     {
         [HttpGet]
         public async Task<ActionResult<List<Employee>>> GetEmployeesAsync()
         {
-            var employees = await employeeRepository.GetAllEmployeesAsync();
+            var employees = await employeeService.GetAllEmployeeAsync();
 
             return Ok(employees);
         }
@@ -20,7 +20,7 @@ namespace ProjectManagement.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Employee>> GetIdEmployeeAsync(int id)
         {
-            var employee = await employeeRepository.GetIdEmployeeAsync(id);
+            var employee = await employeeService.GetIdEmployeeAsync(id);
 
             if (employee == null)
                 return NotFound();
@@ -31,7 +31,7 @@ namespace ProjectManagement.Controllers
         [HttpPost]
         public async Task<ActionResult> AddEmployeeAsync([FromBody] EmployeeCreateUpdateDto employee)
         {
-            var newEmployee = await employeeRepository.AddEmployeeAsync(employee);
+            var newEmployee = await employeeService.AddEmployeeAsync(employee);
 
             if (newEmployee == null)
                 return Conflict();
@@ -42,7 +42,7 @@ namespace ProjectManagement.Controllers
         [HttpPut("{id}")]
         public async Task<ActionResult> UpdateEmployeeAsync([FromBody] EmployeeCreateUpdateDto employee, int id)
         {
-            bool? checkUpdate = await employeeRepository.UpdateEmployeeAsync(employee, id);
+            bool? checkUpdate = await employeeService.UpdateEmployeeAsync(employee, id);
 
             if (checkUpdate == true)
                 return NoContent();
@@ -55,7 +55,7 @@ namespace ProjectManagement.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteEmployeeAsync(int id)
         {
-            if (await employeeRepository.DeleteEmployeeAsync(id))
+            if (await employeeService.DeleteEmployeeAsync(id))
             {
                 return NoContent();
             }

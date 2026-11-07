@@ -19,14 +19,12 @@ namespace ProjectManagement.Repositories
 
         public async Task<Employee?> AddEmployeeAsync(EmployeeCreateUpdateDto employeeDto)
         {
-            Employee employee = new Employee
+            Employee employee = new()
             {
                 Fullname = employeeDto.Fullname,
                 Email = employeeDto.Email
             };
-            if (!await CheckEmail(employee.Email))
-                return null;
-
+           
             await context.Employees.AddAsync(employee);
             await context.SaveChangesAsync();
 
@@ -37,20 +35,15 @@ namespace ProjectManagement.Repositories
         {
             var currentEmployee = await context.Employees.FirstOrDefaultAsync(e => e.IdEmployee == id);
 
-            if (currentEmployee != null)
-            {
-                if (!await CheckEmail(employee.Email, id))
-                    return null;
+            if (currentEmployee == null)
+                return null;
 
-                currentEmployee.Fullname = employee.Fullname;
-                currentEmployee.Email = employee.Email;
+            currentEmployee.Fullname = employee.Fullname;
+            currentEmployee.Email = employee.Email;
 
-                await context.SaveChangesAsync();
+            await context.SaveChangesAsync();
 
-                return true;
-            }
-            else
-                return false;
+            return true;
         }
 
         public async Task<bool> DeleteEmployeeAsync(int id)
@@ -70,14 +63,12 @@ namespace ProjectManagement.Repositories
             }
         }
 
-        private async Task<bool> CheckEmail(string email, int? id = null)
+        public async Task<bool> CheckEmail(string email, int? id = null)
         {
             var checkEmail = await context.Employees.FirstOrDefaultAsync(e => e.Email == email && (id == null || e.IdEmployee != id));
 
             if (checkEmail != null)
-            {
                 return false;
-            }
             else
                 return true;
         }

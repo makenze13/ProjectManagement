@@ -17,7 +17,7 @@ builder.Services.AddDbContext<ProjectManagementContext>
 
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+builder.Services.AddScoped<IEmployeeService, EmployeeService>();
 builder.Services.AddScoped<IProjectRepository, ProjectRepository>();
 
 builder.Services.AddScoped<ITaskRepository, TaskRepository>();

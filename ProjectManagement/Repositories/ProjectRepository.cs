@@ -19,7 +19,7 @@ namespace ProjectManagement.Repositories
 
         public async Task<Project?> AddProjectAsync(ProjectDto projectDto)
         {
-            Project project = new Project
+            Project project = new()
             {
                 Name = projectDto.Name,
                 Description = projectDto.Description 
