@@ -41,13 +41,13 @@ namespace ProjectManagement.Repositories
 
             if (currentTask != null)
             {
-                currentTask.Title = task.Title;
-                currentTask.DueDate = task.DueDate;
-                currentTask.Description = task.Description;
-                currentTask.IdProject = task.IdProject;
-                currentTask.IdEmployee = task.IdEmployee;
-
-                await context.SaveChangesAsync();
+                await context.Tasks.Where(t => t.IdTask == id)
+                    .ExecuteUpdateAsync(s => s
+                    .SetProperty(t => t.Title, task.Title)
+                    .SetProperty(t => t.DueDate, task.DueDate)
+                    .SetProperty(t => t.Description, task.Description)
+                    .SetProperty(t => t.IdProject, task.IdProject)
+                    .SetProperty(t => t.IdEmployee, task.IdEmployee));
 
                 return true;
             }

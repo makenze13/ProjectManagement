@@ -37,10 +37,10 @@ namespace ProjectManagement.Repositories
 
             if (currentProject != null)
             {
-                currentProject.Name = project.Name;
-                currentProject.Description = project.Description;
-
-                await context.SaveChangesAsync();
+                await context.Projects.Where(p => p.IdProject == id)
+                    .ExecuteUpdateAsync(s => s
+                    .SetProperty(p => p.Name, p => project.Name)
+                    .SetProperty(p => p.Description, p => project.Description));
 
                 return true;
             }

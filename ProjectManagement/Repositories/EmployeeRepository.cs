@@ -38,10 +38,10 @@ namespace ProjectManagement.Repositories
             if (currentEmployee == null)
                 return null;
 
-            currentEmployee.Fullname = employee.Fullname;
-            currentEmployee.Email = employee.Email;
-
-            await context.SaveChangesAsync();
+            await context.Employees.Where(e => e.IdEmployee == id)
+                .ExecuteUpdateAsync(s => s
+                .SetProperty(e => e.Fullname, e => employee.Fullname)
+                .SetProperty(e => e.Email, e => employee.Email));
 
             return true;
         }
