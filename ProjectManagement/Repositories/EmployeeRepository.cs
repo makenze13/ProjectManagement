@@ -31,12 +31,12 @@ namespace ProjectManagement.Repositories
             return employee;
         }
 
-        public async Task<bool?> UpdateEmployeeAsync(EmployeeCreateUpdateDto employee, int id)
+        public async Task<bool> UpdateEmployeeAsync(EmployeeCreateUpdateDto employee, int id)
         {
             var currentEmployee = await context.Employees.FirstOrDefaultAsync(e => e.IdEmployee == id);
 
             if (currentEmployee == null)
-                return null;
+                return false;
 
             await context.Employees.Where(e => e.IdEmployee == id)
                 .ExecuteUpdateAsync(s => s

@@ -24,10 +24,10 @@ namespace ProjectManagement.Services
             return await employeeRepository.AddEmployeeAsync(employee);
         }
 
-        public async Task<bool?> UpdateEmployeeAsync(EmployeeCreateUpdateDto employee, int id)
+        public async Task<bool> UpdateEmployeeAsync(EmployeeCreateUpdateDto employee, int id)
         {
             if (!await employeeRepository.CheckEmail(employee.Email, id))
-                return null;
+                return false;
 
             return await employeeRepository.UpdateEmployeeAsync(employee, id);
         }

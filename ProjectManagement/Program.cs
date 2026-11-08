@@ -1,5 +1,7 @@
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using ProjectManagement.Middlewares;
+using ProjectManagement.Models;
 using ProjectManagement.Repositories;
 using ProjectManagement.Repositories.Intefaces;
 using ProjectManagement.Services;
@@ -28,6 +30,8 @@ builder.Services.AddScoped<ITaskService, TaskService>();
 
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUserService, UserService>();
+
+builder.Services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
 
 var app = builder.Build();
 

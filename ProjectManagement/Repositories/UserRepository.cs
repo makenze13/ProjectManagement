@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using ProjectManagement.Models;
 using ProjectManagement.Models.DTOs;
 using ProjectManagement.Repositories.Intefaces;
 
@@ -31,6 +32,11 @@ namespace ProjectManagement.Repositories
                 .FirstOrDefaultAsync();
         }
 
+        public async Task<User?> GetFullUserDataAsync(int id)
+        {
+            return await context.Users.FirstOrDefaultAsync(u => u.IdUser == id);
+        }
+
         public async Task<bool> DeleteUserAsync(int id)
         {
             var user = await context.Users.FirstOrDefaultAsync(u => u.IdUser == id);
@@ -44,6 +50,35 @@ namespace ProjectManagement.Repositories
             }
             else
                 return false;
+        }
+
+        public async Task<User?> AddUserAsync(UserAddDto userDto, string hash)
+        {
+            User user = new()
+            {
+                Login = userDto.Login,
+                Role = userDto.Role,
+                IdEmployee = userDto.IdEmployee,
+                Password = hash
+            };
+
+            await context.Users.AddAsync(user);
+
+            await context.SaveChangesAsync();
+            
+            return user;
+        }
+
+        public async Task UpdateUserAsync(UserUpdateDto userDto, User? user, string? hash)
+        {
+            user.Login = userDto.Login;
+            user.Role = userDto.Role;
+            user.IdEmployee = userDto.IdEmployee;
+
+            if (hash != null)
+                user.Password = hash;
+
+            await context.SaveChangesAsync();
         }
     }
 }

@@ -42,14 +42,12 @@ namespace ProjectManagement.Controllers
         [HttpPut("{id}")]
         public async Task<ActionResult> UpdateEmployeeAsync([FromBody] EmployeeCreateUpdateDto employee, int id)
         {
-            bool? checkUpdate = await employeeService.UpdateEmployeeAsync(employee, id);
+            bool checkUpdate = await employeeService.UpdateEmployeeAsync(employee, id);
 
-            if (checkUpdate == true)
+            if (checkUpdate)
                 return NoContent();
-            else if (checkUpdate == false)
+            else 
                 return NotFound();
-            else
-                return Conflict();
         }
 
         [HttpDelete("{id}")]
