@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
-
-namespace ProjectManagement.Models
+﻿namespace ProjectManagement.Models
 {
     public partial class User
     {

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace ProjectManagement.Models;
+﻿namespace ProjectManagement.Models;
 
 public partial class Employee
 {
