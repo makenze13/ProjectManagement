@@ -71,7 +71,7 @@ namespace ProjectManagement.Services
 
             var check = passwordHasher.VerifyHashedPassword(user, user.Password, userDto.Password);
 
-            if (check == PasswordVerificationResult.Success)
+            if (check == PasswordVerificationResult.Success || check == PasswordVerificationResult.SuccessRehashNeeded)
                 return user;
             else
                 return null;
@@ -79,14 +79,12 @@ namespace ProjectManagement.Services
 
         public string HashUserPassword(string password)
         {
-            var hash = passwordHasher.HashPassword(new User(), password);
-
-            return hash;
+            return passwordHasher.HashPassword(new User(), password);
         }
 
         public async Task<bool> CheckLoginAsync(string login, int? id)
         {
-            var checkLogin = (await GetAllUsersAsync()).FirstOrDefault(u => u.Login == login && u.IdUser != id);
+            var checkLogin = await userRepository.LoginExistsAsync(login);
 
             if (checkLogin == null)
                 return true;

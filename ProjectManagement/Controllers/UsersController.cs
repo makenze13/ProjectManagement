@@ -23,8 +23,8 @@ namespace ProjectManagement.Controllers
 
             if (user == null)
                 return NotFound();
-            else
-                return Ok(user);
+            
+            return Ok(user);
         }
 
         [HttpPost] 

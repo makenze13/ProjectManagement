@@ -69,7 +69,7 @@ namespace ProjectManagement.Repositories
             return user;
         }
 
-        public async Task UpdateUserAsync(UserUpdateDto userDto, User? user, string? hash)
+        public async Task UpdateUserAsync(UserUpdateDto userDto, User user, string? hash)
         {
             user.Login = userDto.Login;
             user.Role = userDto.Role;
@@ -79,6 +79,11 @@ namespace ProjectManagement.Repositories
                 user.Password = hash;
 
             await context.SaveChangesAsync();
+        }
+
+        public async Task<bool> LoginExistsAsync(string login)
+        {
+            return await context.Users.AnyAsync(u => u.Login == login);
         }
     }
 }
