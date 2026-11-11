@@ -6,7 +6,8 @@ using ProjectManagement.Services.Interfaces;
 
 namespace ProjectManagement.Services
 {
-    public class UserService(IUserRepository userRepository, IPasswordHasher<User> passwordHasher) : IUserService
+    public class UserService(IUserRepository userRepository, IPasswordHasher<User> passwordHasher,
+                              IJwtService jwtService) : IUserService
     {
         public async Task<List<UserGetDto>> GetAllUsersAsync()
         {
@@ -27,7 +28,7 @@ namespace ProjectManagement.Services
         {
             var checkLogin = await CheckLoginAsync(userDto.Login, null);
 
-            if (!checkLogin)
+            if (checkLogin)
                 return null;
 
             var hash = HashUserPassword(userDto.Password);
@@ -39,7 +40,7 @@ namespace ProjectManagement.Services
         {
             var checkLogin = await CheckLoginAsync(userUpdateDto.Login, id);
 
-            if (!checkLogin)
+            if (checkLogin)
                 return false;
 
             var user = await CheckUserPasswordAsync(userUpdateDto, id);
@@ -84,9 +85,9 @@ namespace ProjectManagement.Services
 
         public async Task<bool> CheckLoginAsync(string login, int? id)
         {
-            var checkLogin = await userRepository.LoginExistsAsync(login);
+            var checkLogin = await userRepository.LoginExistsAsync(login, id);
 
-            if (checkLogin == null)
+            if (checkLogin)
                 return true;
             else
                 return false;

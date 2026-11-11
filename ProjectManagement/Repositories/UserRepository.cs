@@ -81,9 +81,14 @@ namespace ProjectManagement.Repositories
             await context.SaveChangesAsync();
         }
 
-        public async Task<bool> LoginExistsAsync(string login)
+        public async Task<bool> LoginExistsAsync(string login, int? id)
         {
-            return await context.Users.AnyAsync(u => u.Login == login);
+            return await context.Users.AnyAsync(u => u.Login == login && u.IdUser != id);
+        }
+
+        public async Task<User?> GetUserByLoginAsync(string login)
+        {
+            return await context.Users.FirstOrDefaultAsync(u => u.Login == login);
         }
     }
 }

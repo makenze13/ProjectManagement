@@ -11,6 +11,7 @@ namespace ProjectManagement.Repositories.Intefaces
         Task<bool> DeleteUserAsync(int id);
         Task<User?> AddUserAsync(UserAddDto userDto, string hash);
         Task UpdateUserAsync(UserUpdateDto userDto, User? user, string? hash);
-        Task<bool> LoginExistsAsync(string login);
+        Task<bool> LoginExistsAsync(string login, int? id);
+        Task<User?> GetUserByLoginAsync(string login);
     }
 }
